@@ -1,5 +1,4 @@
 package com.github.biloschycki.jogador.controller;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -15,38 +14,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.biloschycki.jogador.model.Jogador;
-import com.github.biloschycki.jogador.repository.JogadorRepository;
+import com.github.biloschycki.jogador.model.Restaurante;
+import com.github.biloschycki.jogador.repository.RestauranteRepository;
+
 
 @RestController
-@RequestMapping("api/${api.version}/jogadores")
-public class JogadorController {
+@RequestMapping("api/${api.version}/pedidos")
+public class RestauranteController {
+
 
     @Autowired
-    private JogadorRepository repository;
+    private RestauranteRepository repository;
 
     @PostMapping
-    public ResponseEntity<Jogador> create(@RequestBody Jogador jogador) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(jogador));
+    public ResponseEntity<Restaurante> create(@RequestBody Restaurante restaurante) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(restaurante));
     }
 
     @GetMapping
-    public ResponseEntity<List<Jogador>> findAll() {
+    public ResponseEntity<List<Restaurante>> findAll() {
         return ResponseEntity.ok(repository.findAll());
     }
 
      @GetMapping("/{id}")
-    public ResponseEntity<Jogador> findById(@PathVariable Long id) {
+    public ResponseEntity<Restaurante> findById(@PathVariable Long id) {
         return repository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Jogador> update(@PathVariable Long id, @RequestBody Jogador jogador) {
-        Optional<Jogador> optJogador = repository.findById(id);
-        if(optJogador.isPresent()){
-            jogador.setId(id);
-            Jogador jogadorAlterado=repository.save(jogador);
-            return ResponseEntity.ok(jogadorAlterado);
+    public ResponseEntity<Restaurante> update(@PathVariable Long id, @RequestBody Restaurante restaurante) {
+        Optional<Restaurante> optRestaurante = repository.findById(id);
+        if(optRestaurante.isPresent()){
+            restaurante.setId(id);
+            Restaurante restauranteAlterado=repository.save(restaurante);
+            return ResponseEntity.ok(restauranteAlterado);
         }else {
             return ResponseEntity.notFound().build();
         }
@@ -59,3 +60,5 @@ public class JogadorController {
         
     }
 }
+
+
